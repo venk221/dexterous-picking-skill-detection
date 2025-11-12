@@ -1,0 +1,6 @@
+sensor_msgs/PointCloud2 in_cloud
+geometry_msgs/Point view
+int32[] pts
+int32 k
+---
+geometry_msgs/Point[] normals

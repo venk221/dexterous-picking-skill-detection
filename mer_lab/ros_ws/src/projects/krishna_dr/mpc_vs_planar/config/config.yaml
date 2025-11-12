@@ -1,0 +1,85 @@
+planarbot :
+  # Publish all joint states -----------------------------------
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 30  
+    
+    # Velocity Controllers ------------------------------------
+  joint1_velocity_controller:
+    type: velocity_controllers/JointVelocityController
+    joint: joint1
+    # pid: {p: 100.0, i: 0.01, d: 10.0}                         #pid: {p: 100.0, i: 0.01, d: 10.0}
+  joint2_velocity_controller:
+    type: velocity_controllers/JointVelocityController
+    joint: joint2
+    # pid: {p: 100.0, i: 0.01, d: 10.0}
+  
+  # Position Controllers ------------------------------------
+  joint1_position_controller:
+    type: velocity_controllers/JointPositionController
+    joint: joint1
+    # pid: {p: 1.0, i: 0.00, d: 0.1}
+
+  joint2_position_controller:
+    type: velocity_controllers/JointPositionController
+    joint: joint2
+    # pid: {p: 1.0, i: 0.00, d: 0.1}
+    
+    # Jacobian Estimation Parameters ------------------------------------
+  estimation:
+    epsilon: 1.0e-5 # update threshold or convergence condition
+    gamma:  10.0e-1 # learning rate during initial estimation
+    gamma2: 10.0e-9 # learning rate during servoing
+    window: 50 # window size
+    amplitude: 0.5 # amplitude for initial sin velocities
+    rate: 10 # initialization loop rate
+
+  gazebo_camera:
+    focus: 178.76  # Focal length from Intrinsic Matrix 
+    c_intrinsic: 150.5 # cx = cy from Intrinsic Matrix
+    depth: 1.83 # measured Depth from Camera centre to end effector
+  
+  robot_params:
+    l1: 0.5 #link-1 length
+    l2: 0.5 #link-2 length
+  
+  control:
+    no_of_actuators: 2
+    no_of_features: 2
+    rate: 10 # control loop rate
+    thresh: 3 # visual servoing convergence threshold
+    goal_pos_x: 160       # This is for adaptive VS 150,136,200,200,200,100
+    goal_pos_y: 55     # This is for adaptive VS 200,118,120,220,60,60
+    # right(235,140) = left(160,55)(170,55) 170,70 right_down(210,140) Inside(170,120)
+
+
+  mpc:
+    mpc_steps: 5  # prediction horizon
+    mpc_sample_time: 0.1 # 100ms -10hz
+    w_pixel_x: 0.02 # weight to Pixel error in X -0.001
+    w_pixel_y: 0.02 # weight to Pixel error in Y -0.001
+    w_j1_vel: 5 # weight to Joint-1 Velocity 0.8
+    w_j2_vel: 5 # weight to Joint-2 Velocity 0.8
+    w_j1_accl: 1000 # weight to Joint-1 acceleration
+    w_j2_accl: 1000 # weight to Joint-2 acceleration
+    j1_accl_limit: 0.5 # Joint-1 Acceleration limit 0.5
+    j2_accl_limit: 0.5 # Joint-2 Acceleration limit 0.5
+    pixel_x_lb: 0 # Pixel x Lower bound 
+    pixel_x_ub: 300 # Pixel x Upper bound 
+    pixel_y_lb: 0 # Pixel y Lower bound 
+    pixel_y_ub: 300 # Pixel y Upper bound 
+    theta_1_lb: -1000 # Pixel x Lower bound 
+    theta_1_ub: 1000 # Pixel x Upper bound 
+    theta_2_lb: -1000 # Pixel y Lower bound 
+    theta_2_ub: 1000 # Pixel y Upper bound 
+    j1_vel_lb: -2 # Joint-1 angular velocity Lower bound 
+    j1_vel_ub:  2 # Joint-1 angular velocity Upper bound 
+    j2_vel_lb: -2 # Joint-2 angular velocity Lower bound 
+    j2_vel_ub:  2 # Joint-2 angular velocity Upper bound 
+              
+
+
+
+
+
+ 

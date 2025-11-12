@@ -1,0 +1,12 @@
+hyperparameters:
+  num_keypoints: 6
+  num_epoch: 20
+  batch_size_train: 10
+  batch_size_test: 1
+  lr: 0.001
+  momentum: 0.9
+  step_size: 5
+  gamma: 0.3
+  weight_decay: 0.0005
+  print_freq: 1000
+

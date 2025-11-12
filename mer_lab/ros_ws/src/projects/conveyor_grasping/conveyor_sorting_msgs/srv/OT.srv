@@ -1,0 +1,6 @@
+geometry_msgs/Point[] source
+geometry_msgs/Point[] target
+float64[] cost
+---
+int64[] association
+float64 cost

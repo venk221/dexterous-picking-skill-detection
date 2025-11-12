@@ -1,0 +1,33 @@
+<launch>
+    <!-- Launch controller for robot joints -->
+    <rosparam file="$(find origamibot_mpc)/config/config.yaml" command="load"/>
+
+    <rosparam file="$(find origami_control)/config/config.yaml" command="load"/>
+     <rosparam file="$(find srl_sim)/config/config.yaml" command="load"/>
+    <!-- VS Controller Node -->
+    <node name="mpc_vs_origami_node" pkg="origamibot_mpc" type="mpc_vs_origami_node" output = "screen"/>
+    <node name="origami_sim_ref_pub_node" pkg="origami_control" type="origami_sim_ref_pub_node" respawn="false" output="screen" />
+
+    <!-- Launch srl sim -->
+    <!-- <include file="$(find srl_sim)/launch/sim.launch"/> -->
+   
+    
+    <!-- Launch FK & vis -->
+    <node name="soft_robot_sim" pkg="srl_sim" type="sim_FK.py" respawn="false" output="screen" />
+    
+    <!-- Launch low level control -->
+    <node name="sim_controller" pkg="origami_control" type="simulation_control_interface.py" respawn="false" output="screen" />
+     
+    <!-- Visualization Nodes -->
+    <!-- <node name="planarbot_record_node" pkg="planar_robot_vs" type="planarbot_record_node" output="screen" /> -->
+    <node name="origamibot_vis_node" pkg="origamibot_mpc" type="origamibot_trajectory_visual.py" output="screen" required = "true" />
+    <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(find planar_robot_vs)/launch/planarbt.rviz"/> -->
+    <!-- <node name="plotjuggler" pkg="plotjuggler" type="plotjuggler" output="screen" required = "true" /> -->
+    <node name="image_view" pkg="image_view" type="image_view" respawn="false" output="screen">
+    	<remap from="image" to="/origamibot_mpc/vis" />
+    </node>
+
+    <!-- </node>  -->
+
+</launch> 
+

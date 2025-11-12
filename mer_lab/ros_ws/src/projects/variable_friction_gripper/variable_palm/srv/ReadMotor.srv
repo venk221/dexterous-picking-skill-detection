@@ -1,0 +1,4 @@
+int64 motor_no
+---
+float64 val
+float64 enc

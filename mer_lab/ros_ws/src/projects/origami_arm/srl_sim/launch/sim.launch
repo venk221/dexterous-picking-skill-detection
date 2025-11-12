@@ -1,0 +1,16 @@
+<launch>
+    <!-- Load configuration parameters -->
+    <rosparam file="$(find srl_sim)/config/config.yaml" command="load"/>
+    
+    <!-- Launch FK & vis -->
+    <node name="soft_robot_sim" pkg="srl_sim" type="sim_FK.py" respawn="false" output="screen" />
+    
+    <!-- Launch low level control -->
+    <node name="sim_controller" pkg="origami_control" type="simulation_control_interface.py" respawn="false" output="screen" />
+
+    <!-- Launch image view -->
+    <node name="image_view" pkg="image_view" type="image_view" respawn="false" output="screen">
+    <param name="autosize" value="true" />
+    <remap from="image" to="/origami_vs/camera_image" />
+    </node>
+</launch>

@@ -1,0 +1,16 @@
+sensor_msgs/PointCloud2 filtered_cloud
+sensor_msgs/PointCloud2 full_cloud
+int32 control_points
+int32 order
+float64 smoothness
+float64 radius
+float64 min_dist
+int32 k
+bool hide_viewer
+bool no_transform
+
+bool use_skeleton
+float64 skeleton_leaf_size
+---
+geometry_msgs/Point[] sampled_points
+geometry_msgs/Point[] sampled_normals

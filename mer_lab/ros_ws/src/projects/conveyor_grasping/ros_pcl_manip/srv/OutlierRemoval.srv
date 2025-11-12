@@ -1,0 +1,5 @@
+sensor_msgs/PointCloud2 cloud
+int32 mean_k
+float64 stddev_thresh
+---
+sensor_msgs/PointCloud2 filtered_cloud

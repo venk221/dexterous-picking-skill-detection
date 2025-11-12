@@ -1,0 +1,5 @@
+float64 resolution
+string frame_id
+string base_id
+string filepath
+---

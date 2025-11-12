@@ -1,0 +1,87 @@
+pile_simulation:
+  seed: 1                       # Leave blank for a random seed
+  env_dims:
+    x: 80
+    y: 80
+    z: 10
+  pile_dims:
+    x: 35
+    y: 35
+    z: 5
+  dep_topic: "/camera1/depth/image_raw"
+  rgb_topic: "/camera1/color/image_raw"
+  camera_info: "/camera1/depth/camera_info"
+  sweep_topic: "execute_sweeping"
+conveyor_sorting:
+  topographical_map:
+    raw_depth_topic: "/camera1/depth/image_raw"
+    input_depth_topic: "/camera1/depth/image_raw"
+    input_color_topic: "/camera1/color/image_raw"
+    input_color_encoding: "bgr8"
+    topographical_map_topic: "/conveyor_sorting/topographical_map"
+    camera_table_offset: 10        # Should be computed by the launch file usually
+    division_count: 5              # How many level curves
+    peak_distance: 5          # Height from the ground
+    roi:
+      top_left:
+        x: 15
+        y: 15
+      bottom_right:
+        x: 65
+        y: 65
+    score_topic: "/score"
+    score_img_topic: "/scored_image"
+    desired_color_range:
+      min:
+        h: 90
+        s: 65
+        v: 25
+      max:
+        h: 150
+        s: 100
+        v: 100
+  table_desc:
+    center:
+      x: 0.6
+      y: 0.0
+      z: 0.5
+    size:
+      x: 1.0
+      y: 1.5
+      z: 0.025
+  pile_spawner:
+    pile_width: 0.3
+    pile_length: 0.3
+    pile_height_diff: 0.1
+    pile_items:
+      min: 25
+      max: 30
+  sweeper:
+    motion:
+      width: 5.0
+      height: 1.0
+    max_iter: 5
+    use_ot: false     # Whether to use optimal transport or just random
+    move: false # Whether to move the robot around or not, useful for simulation
+    seed: -1 # The seed to use when sampling, set it to -1 to make it random
+    discrete_angles: 36
+    sweep_topic: "execute_sweeping"
+    camera_intrinsics_topic: "/camera1/depth/camera_info"
+    camera_frame: "camera_link"
+    world_frame: "world"
+    ot_sweeper:
+      cluster: true
+      eps: 5
+      min_samples: 5
+      samples: 100 # How many times to sample from the topographical map
+      spread_area: 0.4  # The area within which we spread items around
+  motion_planner:
+    initial_joints:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    execute: false

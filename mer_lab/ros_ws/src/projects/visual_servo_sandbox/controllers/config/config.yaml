@@ -1,0 +1,23 @@
+two_link_vs:
+  # controller config
+  control_rate: 30
+  servo_gain: 0.07
+  no_of_features: 2
+  feedforward: Yes
+
+  # Target config
+  stationary_target: No
+  # target_init: [209, 69]
+  target_init: [150, 150]
+  radius: 80
+  slope: 200
+  target_speed: 0.01
+  target_range: 6.28
+
+  # Sim robot config
+  l1: 0.45
+  l2: 0.60
+  no_of_actuators: 2
+  
+  
+  debugger_mode: 1

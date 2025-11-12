@@ -1,0 +1,9 @@
+sensor_msgs/PointCloud2 cloud
+float64 res
+bool custom_bbx
+geometry_msgs/Point bbxMinPt
+geometry_msgs/Point bbxMaxPt
+---
+float32[] x
+float32[] y
+float32[] z

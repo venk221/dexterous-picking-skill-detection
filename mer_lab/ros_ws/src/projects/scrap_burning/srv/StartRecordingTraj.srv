@@ -1,0 +1,4 @@
+string base
+string target
+int32 rate
+---

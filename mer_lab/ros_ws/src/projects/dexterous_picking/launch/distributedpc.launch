@@ -1,0 +1,27 @@
+<launch>
+    <arg name="use_rviz" default="true" />
+    <arg name="debug" default="false" />
+    <arg unless="$(arg debug)" name="launch_prefix" value="" />
+    <arg     if="$(arg debug)" name="launch_prefix" value="gdb --ex run --args" />
+
+    <!-- Run Rviz and load the default config to see the state of the move_group node -->
+    <node name="$(anon rviz)" launch-prefix="$(arg launch_prefix)" pkg="rviz" type="rviz" respawn="false"
+        args="-d $(find dexterous_picking)/launch/dexterous_picking.rviz" output="screen" if="$(arg use_rviz)">
+    </node>
+
+    <node name="zed_camera_publisher_node" pkg="dexterous_picking" type="camera_zed_publisher.py" output="screen"/>
+    <!-- <node name="zed_camera_publisher_node" pkg="dexterous_picking" type="recording.py" output="screen"/> -->
+
+    <node name="grasp_generation_node" pkg="dexterous_picking" type="grasp_gen.py" output="screen"/>
+    
+    <node name="grasp_generation_rgb_node" pkg="dexterous_picking" type="grasp_gen_rgb.py" output="screen"/>
+
+    <node name="grasp_detection_node" pkg="dexterous_picking" type="grasp_detection.py" output="screen"/>
+
+    <node name="grasp_detection_rgb_node" pkg="dexterous_picking" type="grasp_detection_rgb.py" output="screen"/>
+
+    <node name="grasp_transform_node" pkg="dexterous_picking" type="grasp_transform.py" output="screen"/>
+
+    <node name="dexterous_picking_pipeline_node" pkg="dexterous_picking" type="dexterous_picking_pipeline.py" output="screen"/>
+
+</launch>

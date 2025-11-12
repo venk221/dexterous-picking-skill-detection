@@ -1,0 +1,49 @@
+<?xml version='1.0'?>
+<sdf version="1.4">
+  <model name="plate">
+    <static>false</static>
+    <link name="link">
+      <inertial>       
+        <pose>-0.010005972478719946 0.0012469395633811198 0.008849692580074854 2.6339554528331095 -1.5614170415643078 -2.1575461432989798</pose> 
+        <mass>5.7831861697350493e-05</mass>
+        <inertia>
+          <ixx>5.195351956272859e-07</ixx>
+          <ixy>-6.126959620656944e-23</ixy>
+          <ixz>2.889869531096793e-23</ixz>
+          <iyy>2.659346052492959e-07</iyy>
+          <iyz>-1.9019972426332156e-23</iyz>
+          <izz>2.638462025944953e-07</izz>
+        </inertia>
+      </inertial>
+      <collision name="collision">
+        <geometry>
+          <mesh>
+            <!-- Use a downsampled mesh for collisions -->
+            <uri>model://029_plate/google_16k/textured.obj</uri>
+	        </mesh>
+        </geometry>
+        <surface>
+        <!--<friction>
+          <ode>
+            <mu>0.8</mu>
+            <mu2>0.6</mu2>
+          </ode>
+        </friction>-->
+      </surface>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://029_plate/google_16k/textured.obj</uri>
+	        </mesh>
+        </geometry>
+        <material>
+          <script>
+            <uri>model://029_plate/plate.material</uri>
+            <name>plate</name>
+          </script>
+        </material>
+      </visual>
+    </link>
+  </model>
+</sdf>

@@ -1,0 +1,70 @@
+scrap:
+  add_noise:
+    image_topic: "/panda_camera/depth/image_raw" # Topic where depth images are found (sensor_msgs::PointCloud2)
+    noise_depth_topic: "/noisy/depth" # Topic where noisy depth images are found
+    noise_rgb_topic: "/noisy/color" # Topic where noisy color images are found
+    noise_type: "none"                    # Type of noise [gaussian|uniform|none]
+    is_relative: false                        # Whether noise is relative to the depth, takes the noise params as ratios
+    gaussian:
+      mean: 0.0                 # Mean of gaussian noise
+      stddev: 0.005             # Standard deviation of gaussian noise
+      cutoff: 1.0               # Where to clamp the distribution (+/-)
+    uniform:
+      left: 0.0                 # Left point of uniform noise
+      right: 1.0                # Right point of uniform noise
+  path_follow:
+    service_wait_timeout: -1    # Timeout when waiting for services to be available
+    interactive_execution: false # Whether execution waits for user to enter confirmation before moving
+    distance_from_scrap: 0.15    # How far away from the scrap should the robot be when following the path
+    path_end_threshold: 0.0001   # How far the last 2 points moved to must be to consider this the end of the path
+    planning_time: 3.0           # How much time moveit has to plan a motion before failing
+    initial_joint_config:        # Initial position to move towards
+      - 0.0
+      - -0.78
+      - 0.0
+      - -0.78
+      - 0.0
+      - 0.78
+      - 0.78
+    depth_topic: "/panda_camera/depth/points" # Topic where depth images are found (sensor_msgs::PointCloud2)
+    normal_nn_count: 50                              # Number of nearest neighbors for normal estimation
+    outlier_removal:
+      mean_k: 50                # Number of nearest neighbors used for removal (0 to disable)
+      stddev_thresh: 1.0        # Number of standard devs away required to be removed
+    filter:
+      color: "r"                # Which field to filter the curve on
+      lower: 10                 # Lower bound
+      upper: 255                # Upper bound
+      secondary_threshold: 20   # Other color fields
+    downsample_leaf_size: 0.005 # Leaf size for downsampling, <= 0 to disable
+    use_method: "pcl_nurbs" # Which method to use in path following, either "pcl_nurbs", "skeleton", or "active"
+    curve_fitting:
+      control_pts: 20         # Number of control points
+      smoothness: 100.0       # Smoothness constraint of the curve
+      radius: 1.0             # Initial curve radius
+      min_cutoff_dist: 0.01     # Cutoff curve if too far from any point
+      skel_leaf_size: 0.005     # Skeleton leaf size
+    visualization:
+      view_curve: true          # View the curve in RVIZ, colored black
+      view_target: true         # View the target point in RVIZ, colored blue
+      view_target_norm: true    # View the normal to the target point in RVIZ, colored blue
+      view_visited: true        # View the visited points in RVIZ, colored green
+      view_segmented_curve: true # Whether to publish/show the color-filtered curve
+    active_vision:
+      octomap_res: 0.05          # Resolution of the occupancy grid for active vision
+      camera:                    # Camera intrinsics
+        res_y: 320
+        res_x: 240
+        focal_length: 554.25469
+      ray_length: 0.7           # How far to project a ray forward
+      frontier_bounding_box: 10 # How many cells do we expand the frontier voxels by to get a bounding box to search
+      threads: 2                # Number of threads to use when evaluating viewpoints
+      optimized: true           # Whether to run the optimized, not-naive active vision algorithm
+    save_octomap_path: "/home/fadi/scrap_ws/latest.ot"
+    save_filtered: false         # Whether to save the filtered path
+    save_filtered_path: "/tmp/filtered.pcd" # Where to save the filtered path
+    save_points: false                      # Save normals/points visited to a file
+    save_points_path: "/tmp/points.csv"     # Where to save the normals/points
+    save_global_skel_path: "/tmp/skel_pts.csv" # Where to save the global skeletonization fit
+    reverse_normal: false # If movement failed, reverse normal and try again
+    sample_execution: false # Whether to execute a sample movement over path

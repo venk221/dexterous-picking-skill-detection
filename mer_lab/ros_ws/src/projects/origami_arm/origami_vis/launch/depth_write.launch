@@ -1,0 +1,16 @@
+<launch>
+    <!-- Load configuration parameters -->
+    <rosparam file="$(find origami_control)/config/config.yaml" command="load"/>
+    
+    <!-- Launch the realsense aligned depth node -->
+    <include file="$(find encoderless_vs)/launch/rs_encoderless.launch"/>
+    
+    <!-- <node name="img_writer_node" pkg="origami_vis" type="write_depth_images.py" output="screen" respawn="false" /> -->
+        <node name="img_writer_node" pkg="origami_vis" type="image_write.py" output="screen" respawn="false" />
+
+
+    <!-- <node name="annotated_view" pkg="image_view" type="image_view" respawn="false" output="screen">
+    	<remap from="image" to="" />
+    </node> -->
+
+</launch>

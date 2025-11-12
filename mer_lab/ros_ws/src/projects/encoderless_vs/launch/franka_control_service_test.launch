@@ -1,0 +1,25 @@
+<launch>
+      
+    <!-- Launch camera -->
+   <include file="$(find encoderless_vs)/launch/rs_encoderless.launch"/>
+   <!-- <include file="$(find realsense2_camera)/launch/rs_aligned_depth.launch"/> -->
+    
+    <!-- Load parameters -->
+    <rosparam file="$(find encoderless_vs)/config/franka_config.yaml" command="load"/>
+    
+    <!-- Launch binary image -->
+    <node name="binary_image_service" pkg="encoderless_vs" type="franka_bin_svc_server_test.py" respawn="false" output="screen" />
+
+    <!-- skeletonize and generate control points -->
+    <node name="control_points_gen_service" pkg="encoderless_vs" type="franka_cp_svc_server_fresh.py" respawn="false" output="screen" />
+
+    <!-- client node to test the pipeline -->
+    <node name="control_points_gen_client" pkg="encoderless_vs" type="franka_cp_svc_client.py" respawn="false" output="screen" />
+
+    <!-- <node name="image_view" pkg="image_view" type="image_view" respawn="false" output="screen">
+    	<param name="autosize" value="true" />
+        <remap from="image" to="/franka/rgb_img" />
+    </node> -->
+
+</launch>
+

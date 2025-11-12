@@ -1,0 +1,13 @@
+<launch>
+  <arg name="move_group" default="arm" />
+
+  <node name="topographical_mapper_node" pkg="conveyor_sorting" type="topographical_mapper_node" output="screen" />
+  <node name="pot_solver_node" pkg="conveyor_sorting" type="pot_solver.py" output="screen" />
+  <node name="ot_sweeper_node" pkg="conveyor_sorting" type="ot_sweeper_node" output="screen" />
+  <node name="sweeper_node" pkg="conveyor_sorting" type="sweeper_node" output="screen" />
+  <include file="$(find moveit_planner)/launch/main.launch">
+    <arg name="group_name" value="$(arg move_group)" />
+  </include>
+  <node name="scorer_node" pkg="conveyor_sorting" type="scorer_node" output="screen" />
+
+</launch>

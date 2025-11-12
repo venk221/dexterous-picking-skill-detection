@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<robot name="plate">
+  <link name="plate__link">
+    <inertial>
+      <mass value="5.7831861697350493e-05"/>
+      <origin xyz="-0.01     0.00124  0.00885" rpy="2.63395 -1.56141 -2.15754"/>
+      <inertia ixx="5.195351956272859e-07" ixy="-6.126959620656944e-23" ixz="2.889869531096793e-23" iyy="2.659346052492959e-07" iyz="-1.9019972426332156e-23" izz="2.638462025944953e-07"/>
+    </inertial>
+    <collision name="plate__collision">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://dexterous_picking/description/ycb/029_plate/google_16k/textured.dae" scale="1.0 1.0 1.0"/>
+      </geometry>
+    </collision>
+    <visual name="plate__visual">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://dexterous_picking/description/ycb/029_plate/google_16k/textured.dae" scale="1.0 1.0 1.0"/>
+      </geometry>
+    </visual>
+  </link>
+</robot>

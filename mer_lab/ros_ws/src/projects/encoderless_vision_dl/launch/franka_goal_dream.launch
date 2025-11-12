@@ -1,0 +1,51 @@
+<launch>
+    <arg name="initial_reset" default="true"/>
+     <!-- Launch camera -->
+   <!-- <include file="$(find encoderless_vs)/launch/rs_encoderless.launch"/> -->
+    <include file="$(find realsense2_camera)/launch/rs_camera.launch"/>
+    <!-- <include file="$(find encoderless_vs)/launch/rs_encoderless_old.launch">
+        <arg name ="initial_reset" value="$(arg initial_reset)"/>
+    </include> -->
+
+    <!-- Load parameters -->
+    
+    <node name="set_auto_exposure_rgb" pkg="dynamic_reconfigure" type="dynparam" args="set /camera/rgb_camera enable_auto_exposure False"/>
+
+    <!-- <arg name="i" />
+    <arg name="b" /> -->
+     <!-- Launch camera -->
+    <!-- <include file="$(find encoderless_vs)/launch/rs_encoderless.launch">
+        <arg name ="initial_reset" value="$(arg initial_reset)"/>
+    </include> -->
+        
+   <!-- <include file="$(find realsense2_camera)/launch/rs_aligned_depth.launch"/> -->
+
+   <node name="realtime_kp" pkg="encoderless_vision_dl" type="real_time_new_framework.py" output="screen" respawn="false" />
+    <!-- <node name="projection_node" pkg="encoderless_vision_dl" type="kp_detection.py" output="screen" respawn="false" /> -->
+    <!-- <node name="kalmanfilter_class" pkg="encoderless_vs" type="kalmanfilter.py" output="screen" respawn="false" /> -->
+      
+    <!-- Launch binary image -->
+    <node pkg="encoderless_vs" type="franka_goal_dream_svc.py" name="goal_dream_image_service" output="screen" args="--input-params-path $(arg i) --base-frame $(arg b)" />
+    <node pkg="encoderless_vs" type="franka_goal_dream_client.py" name="goal_dream_image_client" output="screen" />   
+
+
+
+    <!-- skeletonize and generate control points -->
+    <!-- <node name="goal_control_points_gen_service" pkg="encoderless_vs" type="franka_goal_cp_svc.py" respawn="false" output="screen" />
+
+    <!client node to test the pipeline -->
+    <!-- <node name="goal_control_points_gen_client" pkg="encoderless_vs" type="franka_goal_cp_svc_rqst.py" respawn="false" output="screen" required="true"/> -->
+
+    <!-- <node name="goal_franka_goal_vis_node" pkg="encoderless_vs" type="franka_goal_img_pub.py" output="screen" /> -->
+    
+    <!-- Save images -->
+    <!-- <node name="image_writer" pkg="encoderless_vs" type="img_write.py" output="log" respawn="false" /> --> 
+    <!-- <node name="depth_writer" pkg="encoderless_vs" type="depth_write.py" output="screen" respawn="false" /> -->
+    <node name="image_view" pkg="image_view" type="image_view" respawn="false" output="screen">
+    	<remap from="image" to="/camera/color/image_raw" />
+
+    </node>  
+    
+
+</launch>
+

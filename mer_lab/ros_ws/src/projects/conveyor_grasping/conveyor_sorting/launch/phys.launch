@@ -1,0 +1,32 @@
+<launch>
+  <!-- Launch robot -->
+  <include file="$(find panda_moveit_config)/launch/panda_control_moveit_rviz.launch">
+    <arg name="robot_ip" value="172.16.0.2" />
+    <arg name="load_gripper" value="false" />
+    <!-- Do not launch rviz, we will run our own -->
+    <arg name="launch_rviz" value="false" />
+  </include>
+
+  <!-- Launch Realsense -->
+  <include file="$(find realsense2_camera)/launch/rs_camera.launch">
+    <arg name="enable_pointcloud" value="true" />
+    <arg name="depth_fps" value="15" />
+    <arg name="color_fps" value="15" />
+  </include>
+
+  <!-- Publish transformation frames for camera -->
+  <node pkg="tf" type="static_transform_publisher" name="panda_hand_tf"
+        args="0.0 0.0 0.0 0.0 0.0 -0.785398 /panda_link8 /panda_hand 100" />  
+  <node pkg="tf" type="static_transform_publisher" name="camera_link_tf"
+        args="0.040 -0.0175 0.025 3.1415 -1.571 -0.785398 /panda_link8 /camera_link 100" />
+
+  <!-- Store all params -->
+  <!-- Load config first to overwrite later-->
+  <rosparam file="$(find conveyor_sorting)/config/conveyor_sorting_config_phys.yaml" command="load" />
+
+  <!-- Load rviz -->
+  <node pkg="rviz" type="rviz" name="conveyor_sorting_rviz" args="-d $(find conveyor_sorting)/rviz/phys.rviz" />
+
+  <!-- This node is necessary to translate the depth data into 32FC1 -->
+  <node pkg="conveyor_sorting" type="depth_translator_node" name="depth_translator_node" />
+</launch>

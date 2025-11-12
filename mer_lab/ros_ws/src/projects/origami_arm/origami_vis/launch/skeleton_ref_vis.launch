@@ -1,0 +1,8 @@
+<launch>
+    <!-- Load YAML -->
+    <rosparam file="$(find origami_control)/config/config.yaml" command="load"/>
+
+    <!-- Launch ref vis -->
+    <node name="reference_vis" pkg="origami_vis" type="ref_pub.py" output="screen" />
+
+</launch>

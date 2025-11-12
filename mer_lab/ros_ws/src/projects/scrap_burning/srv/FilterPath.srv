@@ -1,0 +1,7 @@
+sensor_msgs/PointCloud2 cloud
+string field_name
+int64 field_upper
+int64 field_lower
+int64 secondary_threshold
+---
+sensor_msgs/PointCloud2 filtered_cloud

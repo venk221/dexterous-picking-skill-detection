@@ -1,0 +1,8 @@
+<launch>     
+    
+    <!-- franka node -->
+    <node name="franka_vel_start_client" pkg="encoderless_vs" type="franka_joint_impedance_client.py" output="screen" respawn="false" required="true" />
+    <node name="franka_vel_start_server" pkg="encoderless_vs" type="franka_joint_impedance.py" output="screen" respawn="false"/>
+
+</launch>
+

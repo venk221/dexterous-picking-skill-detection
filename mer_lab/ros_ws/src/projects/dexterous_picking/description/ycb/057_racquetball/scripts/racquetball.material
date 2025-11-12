@@ -1,0 +1,15 @@
+material racquetball
+{
+  receive_shadows off
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        // Relative to the location of the material script
+        texture texture_map.png
+      }
+    }
+  }
+}

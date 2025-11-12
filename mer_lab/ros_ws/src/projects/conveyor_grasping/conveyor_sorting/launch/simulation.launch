@@ -1,0 +1,10 @@
+<launch>
+  <rosparam command="load" file="$(find conveyor_sorting)/config/conveyor_sorting_config_custom_sim.yaml" />
+
+  <node name="topographical_mapper_node" pkg="conveyor_sorting" type="topographical_mapper_node" output="screen" />
+  <node name="pot_solver_node" pkg="conveyor_sorting" type="pot_solver.py" output="screen" />
+  <!-- <node name="ot_sweeper_node" pkg="conveyor_sorting" type="ot_sweeper_node" output="screen" /> -->
+  <!-- <node name="scorer_node" pkg="conveyor_sorting" type="scorer_node" output="screen" /> -->
+
+  <node name="pile_simulation_node" pkg="pile_simulator" type="pile_simulation_node" output="screen" />
+</launch>

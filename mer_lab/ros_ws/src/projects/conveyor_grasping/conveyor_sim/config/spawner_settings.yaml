@@ -1,0 +1,10 @@
+spawner:
+  rate: 5              # Really slow for grasping one object at a time
+  models:
+    - mug
+    - wood_block
+    - master_chef_can
+    - bleach_cleanser
+    - mustard_bottle
+    - rubiks_cube
+  randOrientation: true

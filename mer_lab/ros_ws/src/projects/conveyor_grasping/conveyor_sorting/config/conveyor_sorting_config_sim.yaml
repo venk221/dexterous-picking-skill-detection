@@ -1,0 +1,67 @@
+conveyor_sorting:
+  topographical_map:
+    raw_depth_topic: "/camera1/depth/image_raw"
+    input_depth_topic: "/camera1/depth/image_raw"
+    input_color_topic: "/camera1/color/image_raw"
+    input_color_encoding: "bgr8"
+    topographical_map_topic: "/conveyor_sorting/topographical_map"
+    camera_table_offset: 0.0        # Should be computed by the launch file usually
+    division_count: 10              # How many level curves
+    peak_distance: 0.5          # Height from the ground
+    roi:
+      top_left:
+        x: 0
+        y: 0
+      bottom_right:
+        x: 480
+        y: 640
+    score_topic: "/score"
+    score_img_topic: "/scored_image"
+    desired_color_range:
+      min:
+        h: 90
+        s: 65
+        v: 25
+      max:
+        h: 150
+        s: 100
+        v: 100
+  table_desc:
+    center:
+      x: 0.6
+      y: 0.0
+      z: 0.5
+    size:
+      x: 1.0
+      y: 1.5
+      z: 0.025
+  pile_spawner:
+    pile_width: 0.3
+    pile_length: 0.3
+    pile_height_diff: 0.1
+    pile_items:
+      min: 25
+      max: 30
+  sweeper:
+    max_iter: 5
+    use_ot: true     # Whether to use optimal transport or just random
+    move: true
+    seed: -1 # The seed to use when sampling, set it to -1 to make it random
+    discrete_angles: 36
+    sweep_topic: "execute_sweeping"
+    camera_intrinsics_topic: "/camera1/depth/camera_info"
+    camera_frame: "camera_link"
+    world_frame: "world"
+    ot_sweeper:
+      samples: 300 # How many times to sample from the topographical map
+      spread_area: 0.4  # The area within which we spread items around
+  motion_planner:
+    initial_joints:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    execute: false

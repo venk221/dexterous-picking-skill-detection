@@ -1,0 +1,12 @@
+std_msgs/Empty request
+---
+int64 grasp_id
+bool success
+int64 NO_OBJECT_FOUND = 0
+int64 PUSH_TO_HORIZONTAL = 1
+int64 PUSH_TO_VERTICAL = 2
+int64 SIMPLE_PICK = 3
+int64 SLIDE_TO_EDGE = 4
+int64 FLIP = 5
+int64 GO_TO_HOME = 6
+int64 RESET = 7

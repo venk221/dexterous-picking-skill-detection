@@ -1,0 +1,54 @@
+<launch>
+  <!-- Scrap spawning arguments -->
+  <arg name="scrap_name" default="simpleCylinder" />
+  <arg name="on_table" default="false" />
+  <arg name="table_offset" default="0.0" />
+  <arg name="x" default="0.75" />
+  <arg name="y" default="0.0" />
+  <arg name="z" default="0.0" />
+  <arg name="pitch" default="0.0" />
+  <arg name="yaw" default="0.0" />
+
+  <!-- Setup parameters and robot desc for control -->
+  <param name="robot_description" command="$(find xacro)/xacro --inorder $(find ref_benchmark)/desc/franka_camera.xacro" />
+  <rosparam file="$(find ref_benchmark)/config/panda_control.yaml" command="load" />
+
+  <!-- Frames -->
+  <node name="map_frame" pkg="tf" type="static_transform_publisher" args="0 0 0 0 0 0 map world 1000" />
+  <node name="frame1_map" pkg="tf" type="static_transform_publisher" args="0 0 0 0 0 0 map world 1000" />
+
+  <!-- Gazebo -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="paused" value="true" />
+  </include>
+
+  <!-- Spawn robot and object -->
+  <!-- Joints are selected for global view of the scrap -->
+  <node name="spawn_franka" pkg="gazebo_ros" type="spawn_model"
+	args="-param robot_description -urdf -model panda -J panda_joint2 -0.78 -J panda_joint4 -0.78 -J panda_joint6 0.78 -J panda_joint7 0.78" />
+  <node name="spawn_scrap" pkg="gazebo_ros" type="spawn_model"
+	args="-file $(find scrap_burning)/scraps/$(arg scrap_name).urdf -urdf -model scrap -x $(arg x) -y $(arg y) -z $(arg z) -P $(arg pitch) -Y $(arg yaw)" />
+
+  <!-- Spawn walls -->
+  <node name="spawn_walls" pkg="gazebo_ros" type="spawn_model"
+  	args="-file $(find gazebo_description)/urdf/walls.urdf -urdf -model walls" />
+
+  <!-- Spawn table if requried -->
+  <group if="$(arg on_table)">
+    <!-- TODO: Calculate z to ensure table is beneath object -->
+    <arg name="table_z" value="$(eval z - 1.015)" />
+    <arg name="table_x" value="$(eval x - table_offset)" />
+    <node name="spawn_table" pkg="gazebo_ros" type="spawn_model"
+  	  args="-database table -model Table -sdf -x $(arg table_x) -y $(arg y) -z $(arg table_z) -Y 1.5707" />
+  </group>
+
+  <!-- Launch controllers for robot -->
+  <include file="$(find panda_moveit_controller)/launch/main.launch" />
+  <include file="$(find ref_benchmark_moveit_config)/launch/move_group.launch">
+    <arg name="load_robot_description" value="false" />
+  </include>
+  <include file="$(find panda_finger_position_controller)/launch/main.launch" />
+
+  <!-- Finally, launch the pcl manipulation node -->
+  <node name="ros_pcl_manip_node" pkg="ros_pcl_manip" type="ros_pcl_manip_node" output="screen"/>
+</launch>

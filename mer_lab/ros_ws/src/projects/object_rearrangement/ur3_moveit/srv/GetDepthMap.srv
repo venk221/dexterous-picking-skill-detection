@@ -1,0 +1,4 @@
+bool send
+---
+sensor_msgs/CompressedImage depthmap
+sensor_msgs/CameraInfo camerainfo

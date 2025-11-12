@@ -1,0 +1,43 @@
+<launch>
+  <!-- Arguments for Gazebo simulation -->
+  <arg name="world_name" default="$(find dexterous_picking)/worlds/table_world.world" />
+  <arg name="paused" default="false" />
+  <arg name="use_sim_time" default="true" />
+  <arg name="gui" default="true" />
+
+  <!-- Convert xacro to urdf -->
+  <param name="robot_description" command="$(find xacro)/xacro $(find dexterous_picking)/description/urdf/zed2.urdf.xacro" />
+
+  <!-- Start Gazebo simulation with an empty world -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(arg world_name)"/>
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+    <arg name="gui" value="$(arg gui)"/>
+  </include>
+
+  <!-- Spawn the camera into the Gazebo simulation -->
+  <node name="spawn_camera" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model camera" output="screen"/>
+
+  <!-- Load joint state publisher and robot state publisher -->
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+    <param name="use_gui" value="false"/>
+  </node>
+
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen"/>
+
+  <!-- Load Rviz -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find dexterous_picking)/launch/zed2i.rviz" required="true" output="screen"/>
+
+  <!-- Spawn urdfs -->
+  <param name="plate" command="$(find xacro)/xacro $(find dexterous_picking)/description/ycb/029_plate/plate.urdf" />
+  <!-- <param name="chips_can" command="$(find xacro)/xacro $(find dexterous_picking)/description/ycb/001_chips_can/chips_can.urdf" /> -->
+  <!-- <param name="mug" command="$(find xacro)/xacro $(find dexterous_picking)/description/ycb/025_mug/mug.urdf" /> -->
+  <!-- <param name="racquetball" command="$(find xacro)/xacro $(find dexterous_picking)/description/ycb/057_racquetball/racquetball.urdf" /> -->
+  
+  <node name="spawn_plate" pkg="gazebo_ros" type="spawn_model" args="-param plate -x 0.9 -y 0.14 -z 1.1 -urdf -model plate" output="screen"/> 
+  <!-- <node name="spawn_chips_can" pkg="gazebo_ros" type="spawn_model" args="-param chips_can -x 1.1 -y 0.3 -z 1.1 -urdf -model chips_can" output="screen"/> -->
+  <!-- <node name="spawn_mug" pkg="gazebo_ros" type="spawn_model" args="-param mug -x 0.9 -y 0.4 -z 1.1 -urdf -model mug" output="screen"/> -->
+  <!-- <node name="spawn_racquetball" pkg="gazebo_ros" type="spawn_model" args="-param racquetball -x 0.9 -y 0.7 -z 1.1 -urdf -model racquetball" output="screen"/> -->
+
+</launch>

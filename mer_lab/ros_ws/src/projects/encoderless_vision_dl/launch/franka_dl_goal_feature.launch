@@ -1,0 +1,33 @@
+<launch>
+    <arg name="initial_reset" default="true"/>
+     <!-- Launch camera -->
+   <!-- <include file="$(find encoderless_vs)/launch/rs_encoderless.launch"/> -->
+    <include file="$(find encoderless_vision_dl)/launch/rs_origami.launch"/>
+    <!-- <include file="$(find encoderless_vision_dl)/launch/rs_origami.launch"> -->
+        <!-- <arg name ="initial_reset" value="$(arg initial_reset)"/>
+    </include> -->
+    <!-- Load parameters -->
+    <rosparam file="$(find encoderless_vision_dl)/config/franka_dl_config.yaml" command="load"/>
+    
+    <!-- Launch binary image -->
+    <node name="goal_img_kp_service" pkg="encoderless_vision_dl" type="franka_goal_dl_svc.py" respawn="false" output="screen" />
+
+    <!-- client node to test the pipeline -->
+    <node name="goal_keypoints_gen_client" pkg="encoderless_vision_dl" type="franka_goal_dl_client.py" respawn="false" output="log" required="true"/>
+
+    <node name="set_auto_exposure_rgb" pkg="dynamic_reconfigure" type="dynparam" args="set /camera/rgb_camera enable_auto_exposure False"/>
+
+    <!-- <node name="goal_franka_goal_vis_node" pkg="encoderless_vs" type="franka_goal_img_pub.py" output="screen" /> -->
+    
+    <!-- Save images -->
+    <node name="image_writer" pkg="encoderless_vision_dl" type="img_write.py" output="screen" respawn="false" />
+    <!-- <node name="depth_writer" pkg="encoderless_vs" type="depth_write.py" output="screen" respawn="false" /> -->
+
+    <!-- <node name="image_view" pkg="image_view" type="image_view" respawn="false" output="screen">
+    	<remap from="image" to="franka/goal_image" />
+
+    </node>    -->
+    
+
+</launch>
+

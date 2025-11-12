@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<launch>
+
+  <group ns="stereo_vs">
+  	<rosparam file="$(find stereo_vs)/config/parameters.yaml" />
+    <rosparam file="$(find stereo_vs)/config/objects.yaml" />
+  </group>
+
+</launch>

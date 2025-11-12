@@ -1,0 +1,100 @@
+# Backup files
+*~
+\#*
+\.#*
+
+# Computer-generated files
+install
+build
+devel
+
+# Python cache files
+*.py[cod]
+__pycache__/
+
+# Catkin-specific files
+.catkin_workspace
+.catkin_tools
+
+# All CMakeLists.txt are allowed except the root (symlinked)
+/ros_ws/src/CMakeLists.txt
+/ros_ws/CMakeLists.txt
+/CMakeLists.txt
+
+#Matlab Results
+Matlab/piercing_sim/Results
+
+#build and devel files
+ros_ws/build/
+ros_ws/devel/
+ros_ws/logs/
+
+#vscode files
+ros_ws/.vscode/
+ros_ws/.vscode/*
+ros_ws/.vscode
+\.vscode
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+.history/
+
+#Moveit Hand Eye Calibration Plugin
+ros_ws/src/moveit_calibration-master/
+
+#active vision data
+
+ros_ws/src/projects/active_vision/data/*
+ros_ws/src/projects/active_vision/QLearning/
+ros_ws/src/projects/active_vision/models/ycbAV/*
+!ros_ws/src/projects/active_vision/models/ycbAV/ycbObjSetup.py
+!ros_ws/src/projects/active_vision/models/ycbAV/object_ids.txt
+!ros_ws/src/projects/active_vision/models/ycbAV/ReadMe.txt
+ros_ws/src/projects/active_vision/dataCollected/storage/*
+!ros_ws/src/projects/active_vision/dataCollected/storage/ReadMe.txt
+ros_ws/src/projects/active_vision/dataCollected/testData/*
+!ros_ws/src/projects/active_vision/dataCollected/testData/ReadMe.txt
+ros_ws/src/projects/active_vision/dataCollected/trainingData/*
+!ros_ws/src/projects/active_vision/dataCollected/trainingData/ReadMe.txt
+ros_ws/src/projects/active_vision/scripts/__pycache__
+ros_ws/src/projects/active_vision/scripts/*.pyc
+ros_ws/src/projects/active_vision/model/*
+
+#Mujoco and Robosuite data
+/mujoco/insertion/__pycache__
+/mujoco/insertion/*/__pycache__
+/mujoco/insertion/*/*/__pycache__
+/mujoco/insertion/*/*/*/__pycache__
+/mujoco/insertion/*/*/*/*/__pycache__
+.lia.cache
+
+#wandb
+ros_ws/src/projects/active_vision/scripts/wandb/*
+
+#Region based planning data for dexterous manipulation
+ros_ws/src/projects/dexterous_in_hand_manip/region_based_planning/scripts/__pycache__
+
+# savedweights in encoderless_vision_dl
+*.pth
+*.pt
+
+# accidental upload of images
+*.jpeg
+*.jpg
+*.png
+*.avi
+*.mp4
+ros_ws/src/projects/dexterous_in_hand_manip/region_based_planning/scripts/*.pyc
+ros_ws/src/projects/dexterous_in_hand_manip/region_based_planning/output_plans/plan_*
+.editorconfig
+
+# dexterous picking related packages
+ros_ws/src/geometric_shapes/
+ros_ws/src/moveit/
+ros_ws/src/moveit_msgs/
+ros_ws/src/moveit_resources/
+ros_ws/src/moveit_visual_tools/
+ros_ws/src/rviz_visual_tools/
+ros_ws/src/srdfdom/

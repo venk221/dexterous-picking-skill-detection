@@ -1,0 +1,14 @@
+<launch>
+    <!-- Load configuration parameters -->
+    <rosparam file="$(find origami_control)/config/config.yaml" command="load"/>
+
+    <node name="vis_node" pkg="origami_vis" type="vs_experiment_vis.py" output="screen" respawn="false" />
+
+
+    <node name="annotated_view" pkg="image_view" type="image_view" respawn="false" output="screen">
+        <param name="autosize" value="true" />
+    	<remap from="image" to="/origami_vs/vis" />
+    </node>
+
+</launch>
+

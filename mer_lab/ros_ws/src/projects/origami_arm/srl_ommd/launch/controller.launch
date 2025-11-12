@@ -1,0 +1,8 @@
+<launch>
+    
+    <!-- Launch controller -->
+    <node name="ll_controller_node" pkg="srl_ommd" type="low_level_controllers.py" output="screen" respawn="false" />
+
+    <!-- Launch velocity interface -->
+    <include file="$(find origami_control)/launch/vel_interface.launch" />
+</launch>

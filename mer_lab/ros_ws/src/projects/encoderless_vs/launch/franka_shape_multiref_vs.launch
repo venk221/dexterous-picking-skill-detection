@@ -1,0 +1,14 @@
+<launch>
+
+    
+    <!-- Launch the servoing launch file -->
+    <include file="$(find encoderless_vs)/launch/franka_shape_vs.launch"/>
+
+    <!-- publish multiple references -->
+    <node name="franka_multiref" pkg="encoderless_vs" type="multiref.py" output="screen" />
+
+    <!-- publish pick and place command -->
+    <node name="franka_pick_place" pkg="encoderless_vs" type="franka_skel_grasp.py" output="screen" />
+    
+</launch>
+

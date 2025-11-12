@@ -1,0 +1,5 @@
+sensor_msgs/PointCloud2 cloud
+float64 leaf_size
+bool view
+---
+geometry_msgs/Point[] skeleton

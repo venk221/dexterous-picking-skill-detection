@@ -1,0 +1,23 @@
+<launch>
+    <!-- Load YAML -->
+    <rosparam file="$(find origami_control)/config/config.yaml" command="load"/>
+    <!-- <rosparam file ="$(find origami_control)/config/origami_features.yaml" command="load"/> -->
+
+    <!-- Launch curve fit -->
+    <!-- <include file="$(find origami_vision)/launch/skeletonize.launch" /> -->
+    <include file="$(find origami_vision)/launch/curve_fit.launch" />
+
+    <!-- Launch controller -->
+    <!-- <node name="origami_skeleton_vs_node" pkg="origami_control" type="origami_skeleton_vs_node" output="screen" /> -->
+    <node name="origami_feature_client_node" pkg="origami_control" type="origami_kappa_test_node" output="screen" />
+    
+    <!-- Launch services -->
+    <!-- <node name="origami_skeleton_estimation_node" pkg="origami_control" type="origami_skeleton_estimation_node" output="screen" /> -->
+    <!-- <node name="origami_skeleton_adaptive_update_node" pkg="origami_control" type="origami_skeleton_adaptive_update_node" output="screen" /> -->
+
+    <!-- Launch ref vis -->
+    <include file="$(find origami_vis)/launch/skeleton_ref_vis.launch"/>
+    
+    <!-- Launch data recording -->
+    <node name="origami_data_logger" pkg="origami_log" type="skeleton_vs_logger_node" output="screen" required="true" />
+</launch>

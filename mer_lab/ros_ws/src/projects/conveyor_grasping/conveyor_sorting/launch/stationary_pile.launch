@@ -1,0 +1,62 @@
+<launch>
+  <arg name="table_x" default="0.6" />
+  <arg name="table_y" default="0.0" />
+  <arg name="table_z" default="0.5" />
+  <arg name="table_w" default="1.0" />
+  <arg name="table_l" default="1.5" />
+  <arg name="table_h" default="0.025" />
+  <arg name="pile_width" default="0.3" />
+  <arg name="pile_min_items" default="10" />
+  <arg name="pile_max_items" default="15" />
+  <arg name="camera_table_offset" default="0.7" />
+  <!-- This is where the table surface should be -->
+  <arg name="table_surface" value="$(eval arg('table_z') + arg('table_h') / 2)" />
+  <!-- This is how high the camera is -->
+  <arg name="camera_height" value="$(eval arg('table_surface') + arg('camera_table_offset'))" />
+
+  <!-- Store all params -->
+  <!-- Load config first to overwrite later-->
+  <rosparam file="$(find conveyor_sorting)/config/conveyor_sorting_config_sim.yaml" command="load" />
+  <!-- For the robot model -->
+  <param name="robot_description" command="$(find xacro)/xacro --inorder $(find ref_benchmark)/desc/franka.xacro" />
+  <!-- For the camera -->
+  <param name="camera_description" command="cat $(find gazebo_description)/urdf/depth_standalone.urdf" />
+  <!-- For moveit -->
+  <rosparam file="$(find ref_benchmark)/config/panda_control.yaml" command="load" />
+  <!-- Other configs -->
+  <param name="conveyor_sorting/topographical_map/camera_table_offset" value="$(arg camera_table_offset)" />
+
+  <!-- Launch gazebo -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find conveyor_sorting)/worlds/stationary_pile.world" />
+    <arg name="paused" value="true" />
+  </include>
+
+  <!-- Launch robot -->
+  <node name="spawn_franka" pkg="gazebo_ros" type="spawn_model"
+  	args="-param robot_description -urdf -model panda -J panda_joint2 -0.78 -J panda_joint4 -0.78 -J panda_joint6 0.78 -J panda_joint7 0.78" />
+  <!-- Load controllers -->
+  <include file="$(find panda_moveit_controller)/launch/main.launch" />
+  <include file="$(find panda_finger_position_controller)/launch/main.launch" />
+  <!-- Load moveit -->
+  <include file="$(find ref_benchmark_moveit_config)/launch/move_group.launch">
+    <arg name="load_robot_description" value="false" />
+  </include>
+
+  <!-- Load table -->
+  <node name="table_creator_node" pkg="conveyor_sorting" type="table_creator_node"
+	args="$(arg table_x) $(arg table_y) $(arg table_z) $(arg table_w) $(arg table_l) $(arg table_h)" output="screen" />
+
+  <!-- Place camera on top of table -->
+  <node name="spawn_camera" type="spawn_model" pkg="gazebo_ros"
+	args="-param camera_description -urdf -model pile_camera -x $(arg table_x) -y $(arg table_y) -z $(arg camera_height) -P 1.5707" />
+  <!-- Camera TF publisher -->
+  <node name="camera_tf" pkg="tf" type="static_transform_publisher" args="$(arg table_x) $(arg table_y) $(arg camera_height) -1.5707 0 3.14159 world camera_link 10" />
+
+  <!-- Object despawner to clear out fallen objects -->
+  <arg name="despawn_height" value="-0.5" />
+  <node name="despawner" type="conveyor_object_despawner" pkg="conveyor_sim" args="$(arg despawn_height)" />
+
+  <!-- Create pile -->
+  <node name="pile_spawner_node" type="pile_spawner_node" pkg="conveyor_sorting" output="screen" />
+</launch>

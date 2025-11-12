@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<robot name="chips_can">
+  <link name="chips_can__link">
+    <inertial>
+      <mass value="0.0010817455855552354"/>
+      <origin xyz="-0.00493  0.01201  0.1233" rpy="3.13667e+00 -5.00000e-05  1.91384e+00"/>
+      <inertia ixx="5.534980044990295e-06" ixy="7.81452333168539e-22" ixz="-1.219779728459008e-21" iyy="5.508049223930807e-06" iyz="-5.849679740949967e-22" izz="7.848117618939273e-07"/>
+    </inertial>
+    <collision name="chips_can__collision">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://dexterous_picking/description/ycb/001_chips_can/tsdf/textured.dae" scale="1.0 1.0 1.0"/>
+      </geometry>
+    </collision>
+    <visual name="chips_can__visual">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://dexterous_picking/description/ycb/001_chips_can/tsdf/textured.dae" scale="1.0 1.0 1.0"/>
+      </geometry>
+    </visual>
+  </link>
+</robot>

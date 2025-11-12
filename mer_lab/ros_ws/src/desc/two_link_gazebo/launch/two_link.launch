@@ -1,0 +1,38 @@
+<launch>
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+      <arg name="paused" value="true"/>
+      <arg name="use_sim_time" value="true"/>
+      <arg name="gui" value="true"/>
+      <arg name="headless" value="false"/> 		
+      <arg name="recording" value="false"/>
+      <arg name="debug" value="false"/>
+    </include>
+
+    <!-- Spawn a robot into Gazebo -->
+    <param name="robot_description" command="$(find xacro)/xacro --inorder $(find two_link_gazebo)/urdf/two_link.xacro"/>
+    
+    <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+    args="-urdf -model two_link -param robot_description
+      -J joint1 0.75
+      -J joint2 0.6
+      -unpause" />
+      
+    <!-- Launch controller for robot joints -->
+    <rosparam file="$(find two_link_gazebo)/config/config.yaml" command="load"/>
+
+    <!-- load the position controllers -->
+    <node name="controller_spawner_stopped" pkg="controller_manager" type="spawner" respawn="false" output="screen" ns="/two_link" args=
+      "--stopped joint1_position_controller
+      joint2_position_controller"/>
+
+    <!-- load & start the velocity controllers -->
+    <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" ns="/two_link" args=
+      "joint_state_controller
+       joint1_velocity_controller
+       joint2_velocity_controller"/>
+
+    <!-- convert joint states to TF transforms -->
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" respawn="false" output="screen">
+    	<remap from="/joint_states" to="/two_link/joint_states" />
+    </node> 
+</launch>

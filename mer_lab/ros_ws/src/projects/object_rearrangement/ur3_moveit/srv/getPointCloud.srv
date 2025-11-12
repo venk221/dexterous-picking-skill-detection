@@ -1,0 +1,3 @@
+bool send
+---
+sensor_msgs/PointCloud2 cloud

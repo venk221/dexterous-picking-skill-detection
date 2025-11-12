@@ -1,0 +1,63 @@
+<?xml version="1.0" ?>
+<launch>
+    <arg name="robot_ip" default="172.16.0.2"/>
+    <arg name="sim" default="false" />
+    <arg name="arm_id" default="panda" /> 
+
+    <group if="$(arg sim)">
+        <include file="$(find gazebo_ros)/launch/empty_world.launch">
+            <!-- <arg name="world_name" value="$(find active_vision)/worlds/environment.world"/> -->
+            <arg name="paused" value="false"/>
+            <arg name="use_sim_time" value="true"/>
+            <arg name="gui" value="true"/>
+            <arg name="headless" value="false"/>
+            <arg name="recording" value="false"/>
+            <arg name="debug" value="false"/>
+        </include>
+
+        <!-- <param name="move_group/trajectory_execution/allowed_execution_duration_scaling" value="4.0" /> -->
+
+        <include file="$(find panda_moveit_config)/launch/planning_context.launch">
+            <arg name="load_robot_description" value="true" />
+            <arg name="load_gripper" value="false" />
+        </include>
+
+        <node name="spawn_franka_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model panda" />
+
+        <!-- Launch controllers -->
+        <rosparam command="load" file="$(find franka_control)/config/default_controllers.yaml" />
+        <node name="state_controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="franka_state_controller position_joint_trajectory_controller"/>
+
+        <!-- Start publishing to /tf for rviz -->
+        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" output="screen"/>
+        <node name="joint_state_publisher" type="joint_state_publisher" pkg="joint_state_publisher" output="screen">
+            <rosparam param="source_list">[franka_state_controller/joint_states] </rosparam>
+            <param name="rate" value="30"/>
+        </node>
+
+        <!-- Start moveit -->
+        <include file="$(find panda_moveit_config)/launch/move_group.launch">
+            <arg name="load_gripper" value="false" />
+        </include>
+    </group>
+
+    <group unless="$(arg sim)">
+        <include file="$(find franka_control)/launch/franka_control.launch" unless="$(arg sim)">
+            <arg name="robot_ip" value="$(arg robot_ip)" />
+            <arg name="load_gripper" value="false" />
+        </include>
+
+        <include file="$(find dexterous_picking_moveit_config)/launch/move_group.launch" pass_all_args="true">
+            <arg name="allow_trajectory_execution" value="true" />
+            <arg name="load_robot_description" default="true"/>
+            <arg name="load_gripper" value="false" />
+            <arg name="transmission" value="position" />
+            <arg name="pipeline" default="ompl" />
+            <arg name="info" value="true" />
+        </include>
+    </group>
+
+    <node name="motion_primitive_node" pkg="dexterous_picking" type="motion_primitive.py" output="screen"/>
+
+    <node pkg="tf2_ros" type="static_transform_publisher" name="virtual_joint_broadcaster_0" args="0 0 0 0 0 0 world $(arg arm_id)_link0" />
+</launch>

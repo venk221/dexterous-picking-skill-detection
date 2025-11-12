@@ -1,0 +1,19 @@
+<launch>
+    <!-- Load YAML -->
+    <rosparam file="$(find controllers)/config/config.yaml" command="load"/>
+    
+    <!-- Launch marker detect -->
+    <include file="$(find image_processing)/launch/marker_detect.launch" />
+
+    <!-- Launch hardware API -->
+    <node name="sim_interface" type="hardware_api_node" pkg="controllers" output="screen" respawn="false" />
+
+    <!-- Launch reference node -->
+    <node name="reference_pub" type="target_node" pkg="controllers" output="screen" respawn="false" />
+
+    <!-- Launch kinematics service -->
+    <node name="compute_kinematics_srv" type="two_link_jac_srv" pkg="controllers" output="screen" respawn="false" />
+    
+    <!-- Launch controller -->
+    <node name="ibvs_controller" type="ibvs_controller_node" pkg="controllers" output="screen" respawn = "false"/>
+</launch>

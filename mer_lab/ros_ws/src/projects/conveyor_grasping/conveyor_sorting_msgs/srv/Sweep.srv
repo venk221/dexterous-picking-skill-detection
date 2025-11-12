@@ -1,0 +1,5 @@
+conveyor_sorting_msgs/SweepingAction sweeping_action
+float64 scale
+bool execute
+---
+bool result
