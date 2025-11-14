@@ -1,8 +1,0 @@
-float64 octomap_res
-int32 cam_res_x
-int32 cam_res_y
-float64 cam_focal_length
-float64 ray_length
-int32 frontier_bbx_size
-int32 threads
----

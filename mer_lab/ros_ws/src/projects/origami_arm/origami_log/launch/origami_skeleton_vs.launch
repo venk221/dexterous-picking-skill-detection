@@ -1,8 +1,0 @@
-<launch>
-    <!-- Load configuration parameters -->
-    <rosparam file="$(find origami_control)/config/config.yaml" command="load"/>
-
-    <!-- Data logger -->
-    <node name="datalogger" pkg="origami_log" type="skeleton_vs_logger_node" respawn = "false" output="screen" required="true" />
-
-</launch>

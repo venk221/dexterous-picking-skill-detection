@@ -1,3 +1,0 @@
-int64 graspID
----
-sensor_msgs/PointCloud2 graspPtCld

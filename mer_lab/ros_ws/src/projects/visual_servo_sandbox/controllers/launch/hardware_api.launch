@@ -1,7 +1,0 @@
-<launch>
-    <!-- Load YAML -->
-    <rosparam file="$(find controllers)/config/config.yaml" command="load"/>
-
-    <!-- Launch hardware API -->
-    <node name="sim_interface" type="hardware_api_node" pkg="controllers" output="screen" respawn="false" />
-</launch>

@@ -1,9 +1,0 @@
-<launch>
-
-<!-- Load YAML -->
-    <rosparam file="$(find encoderless_vs)/config/franka_config.yaml" command="load"/>
-
-
-<!-- PLotting node -->
-    <node name="compute_results" pkg="encoderless_vs" type="compute_results.py" output="screen" respawn="false" />
-</launch>

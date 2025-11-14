@@ -1,4 +1,0 @@
-curve_fit:
-  smoothness: 1.0
-  control_points: 20
-  order: 3

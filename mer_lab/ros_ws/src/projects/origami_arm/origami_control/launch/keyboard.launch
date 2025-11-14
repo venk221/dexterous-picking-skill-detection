@@ -1,7 +1,0 @@
-<launch>
-    <!-- Load YAML -->
-    <rosparam file="$(find origami_control)/config/config.yaml" command="load"/>
-
-    <!-- Launch velocity interface -->
-    <node name="keyboard_interface" pkg="origami_control" type="origami_keyboard_node" output="screen" />
-</launch>

@@ -1,1 +1,0 @@
-<node name="dream_depth_ds_gen" pkg="encoderless_vs" type="franka_pos_dream_depth_ds_gen.py" output="screen" args="--input-params-path $(arg i) --base-frame $(arg b)" />

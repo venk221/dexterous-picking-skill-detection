@@ -1,4 +1,0 @@
-bool send
----
-sensor_msgs/CompressedImage rgbimage
-sensor_msgs/CameraInfo rgbcamerainfo

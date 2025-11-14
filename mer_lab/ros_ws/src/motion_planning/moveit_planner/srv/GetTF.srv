@@ -1,4 +1,0 @@
-string from
-string to
----
-geometry_msgs/Pose pose

@@ -1,6 +1,0 @@
-<launch>
-   <!-- <arg name= "bag_path" /> -->
-   <!-- <arg name= "topic_name" /> -->
-   <!-- <node pkg="rosbag" type="play" name="rosbag" required="true" args="$(arg bag_path)"/> -->
-   <node pkg="origami_vis" type="bag_image_extract.py" name="writer" output="screen" />
-</launch>

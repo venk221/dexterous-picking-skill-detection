@@ -1,8 +1,0 @@
-float32 gamma
-int32 it
-std_msgs/Float64MultiArray dS
-std_msgs/Float64MultiArray dR
-std_msgs/Float64MultiArray qhat
----
-float32 J
-std_msgs/Float64MultiArray qhat_dot

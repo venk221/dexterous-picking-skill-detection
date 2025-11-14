@@ -1,6 +1,0 @@
-<launch>
-  <arg name="config_file" default="path_follow_override.yaml" />
-
-  <rosparam file="$(find scrap_burning)/config/path_follow.yaml"   command="load" />
-  <rosparam file="$(find scrap_burning)/config/$(arg config_file)" command="load" />
-</launch>

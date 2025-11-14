@@ -1,9 +1,0 @@
-<launch>
-
-<!-- Load YAML -->
-    <rosparam file="$(find encoderless_vs)/config/franka_config.yaml" command="load"/>
-
-
-<!-- PLotting node -->
-    <node name="franka_adaptive_vs_plots" pkg="encoderless_vs" type="franka_plot_node.py" output="screen" respawn="false" />
-</launch>

@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<launch>
-
-  <group ns="encoderless_vs">
-  	<rosparam file="$(find encoderless_vs)/config/parameters.yaml" />
-    <rosparam file="$(find encoderless_vs)/config/objects.yaml" />
-  </group>
-
-</launch>

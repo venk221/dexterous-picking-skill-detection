@@ -1,1 +1,0 @@
-This pkg is used to control the panda gripper fingers using position based commands.

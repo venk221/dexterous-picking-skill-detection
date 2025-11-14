@@ -1,8 +1,0 @@
-<launch>
-    <rosparam file="$(find ur3_moveit)/config/params.yaml" command="load"/>
-    '<include file="$(find ur3_moveit)/launch/demo.launch" />
-    <node name="server_endpoint" pkg="ur3_moveit" type="server_endpoint.py" args="--wait" output="screen" respawn="true" />
-    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
-    <!-- <remap from="/joint_states" to = "/ur3/ros_joint_states" /> -->
-    </node>
-</launch>
