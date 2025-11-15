@@ -5,11 +5,11 @@ This project investigates the use of a novel approach to pick objects from a clu
 In order to setup the project, follow the instructions below:
 1. Clone the repository
 
-        git clone git@github.com:berkcalli/mer_lab.git
+        git clone https://github.com/venk221/dexterous-picking-skill-detection.git
 
 2. Install the dependencies
 
-        cd mer_lab
+        cd dexterous_picking
         rosdep install --from-paths --ignore-src ros_ws -y
 
 3. Build the project
